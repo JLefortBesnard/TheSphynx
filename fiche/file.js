@@ -55,10 +55,15 @@ function valider(){
       Toast.fire({
         icon: 'success',
         title: 'Bien joué'
-      })
-      window.location.href = "loosing.html"
+      }),
+      setTimeout(function() {
+        window.location.href = "winning.html";
+      }, 3000);
+     
   }else{
     console.log("perdu");
+   
+    
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -75,7 +80,10 @@ function valider(){
         icon: 'error',
         title: 'Tu es mort'
       }),
-      window.location.href = "loosing.html"
+      setTimeout(function() {
+        window.location.href = "loosing.html";
+      }, 3000);
+    
   }
 //   else if(div1Content == "1" && div2Content == "2" && div3Content == "1"){
 //     console.log("mort")
