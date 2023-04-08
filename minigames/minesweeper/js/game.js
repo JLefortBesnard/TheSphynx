@@ -36,7 +36,7 @@ function tableCreate() {
             // put <td> at end of the table row
             var cell = document.createElement("td");
             var cellSvg = document.createElement("img");
-            cellSvg.src = "./img/Minesweeper_unopened_square.svg";
+            cellSvg.src = "./minigames/minesweeper/img/Minesweeper_unopened_square.svg";
             
             cell.id = "cell-" + row.id + i;
             cellSvg.addEventListener("mousedown", (e) => {clickTbl((e.target || e.srcElement));});
@@ -94,11 +94,11 @@ function caseCorrecte(i, j){
 function reveler(x,y){
     if(Tadj[x][y] === -1){
         T[x][y] = 1;
-        document.getElementById("cell-" + x + y).children[0].src = "./img/Minesweeper_-1_first.svg";
+        document.getElementById("cell-" + x + y).children[0].src = "./minigames/minesweeper/img/Minesweeper_-1_first.svg";
         showMines();
         stop = true;
         setTimeout(function() {
-            location.reload();
+            window.location.href = 'PageAcceuil.html';
         }, 2000);
     
     }
@@ -135,7 +135,7 @@ function showMines(){
 }
 
 function getAddrToSvg(num){
-    var path = "./img/Minesweeper_"
+    var path = "./minigames/minesweeper/img/Minesweeper_"
     switch (num) {
         case -1 : return path + "-1.svg";
         case 0 : return path + "0.svg";
@@ -165,7 +165,7 @@ function verifGagne(){
   	if(finish === true){
         var s = sessionStorage.getItem('arme');
         if(!alert("Tu as gagné!\nVoici l'indice:" + s)){
-            window.location.href = '../../PageAcceuil.html';
+            window.location.href = 'PageAcceuil.html';
         }
     }												
 }
