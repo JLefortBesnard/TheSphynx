@@ -65,6 +65,7 @@ function valider(){
 
   if (div1Content == valeurRecuperer1 && div2Content == valeurRecuperer2 && div3Content == valeurRecuperer3&& div4Content==valeurRecuperer4) {
     console.log("win");
+    sessionStorage.clear();
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
