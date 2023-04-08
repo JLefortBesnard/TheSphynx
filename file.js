@@ -34,37 +34,39 @@ console.log(selectedValue);
 return selectedValue;
 }
 
-function getDivContentById4(id){
-  // Récupérer l'élément select par son ID
-var selectElement = document.getElementById("lieu");
+// function getDivContentById4(id){
+//   // Récupérer l'élément select par son ID
+// var selectElement = document.getElementById("lieu");
 
-// Récupérer la valeur sélectionnée de l'élément select
-var selectedValue = selectElement.value;
+// // Récupérer la valeur sélectionnée de l'élément select
+// var selectedValue = selectElement.value;
 
-// Afficher la valeur sélectionnée dans la console
-console.log(selectedValue);
-return selectedValue;
-}
+// // Afficher la valeur sélectionnée dans la console
+// console.log(selectedValue);
+// return selectedValue;
+// }
 
 function valider(){
+  var nbreTentative=3;
     var div1Content = getDivContentById("suspect");
   var div2Content = getDivContentById2("arme");
   var div3Content = getDivContentById3("motif");
-  var div4Content = getDivContentById4("lieu");
+  // var div4Content = getDivContentById4("lieu");
   sessionStorage.setItem("suspect","bob");
   sessionStorage.setItem("arme","bouteille");
   sessionStorage.setItem("motif","argent");
-  sessionStorage.setItem("lieu","bar");
+  // sessionStorage.setItem("lieu","bar");
   var valeurRecuperer1=sessionStorage.getItem('suspect');
   var valeurRecuperer2=sessionStorage.getItem('arme');
   var valeurRecuperer3=sessionStorage.getItem('motif');
-  var valeurRecuperer4=sessionStorage.getItem('lieu');
+  // var valeurRecuperer4=sessionStorage.getItem('lieu');
 
 
 
 
-  if (div1Content == valeurRecuperer1 && div2Content == valeurRecuperer2 && div3Content == valeurRecuperer3&& div4Content==valeurRecuperer4) {
+  if (div1Content == valeurRecuperer1 && div2Content == valeurRecuperer2 && div3Content == valeurRecuperer3) {
     console.log("win");
+    sessionStorage.clear();
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -86,6 +88,9 @@ function valider(){
       }, 3000);
      
   }else{
+    // if(nbreTentative!=0){
+      
+    // }
     console.log("perdu");
    
     

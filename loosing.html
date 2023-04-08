@@ -4,13 +4,18 @@
     <link rel="stylesheet" href="Style.css"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <!-- Inclure le fichier CSS de SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+
+<!-- Inclure le fichier JavaScript de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.js"></script>
     <title>Fin de partie</title>
 
   </head>
   <body>
     <h1>The Sphynx</h1>
     <h2>Malheureusement tu n'as pas réussi à trouver le bon criminel</h2>
-    <p>Tu peut recommancer avec une autre histoire différente. Conseil : Prend bien en compte les indices et ne fait pas de conclusion trop hative !</p>
+    <p></p>
 
     <button id="StartID" onclick="redirect()">Élucide une autre affaire !</button>
     <p id="myParagraphe"></p>
@@ -18,6 +23,12 @@
     
 
     <script>
+      Swal.fire({
+  icon: 'error',
+  title: 'Malheureusement tu n as pas réussi à trouver le bon criminel',
+  text: 'Tu peut recommancer avec une autre histoire différente. Conseil : Prend bien en compte les indices et ne fait pas de conclusion trop hative !',
+  footer: '<a onclick="redirect()">Élucide une autre affaire !</a>'
+})
       function myFunction() {
       var x = document.getElementById("StartBtn");
       x.disabled = true;
