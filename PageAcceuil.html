@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link rel="stylesheet" href="Style.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Accueil</title>
+
+  </head>
+  <body>
+    <h1>The Sphynx</h1>
+    <h2>Solve a new case every time</h2>
+
+
+    <p><a href="minigames/snake/snakes.html">Snake</a></p>
+    <p><a href="minigames/space/index.html">spaceInvider</a></p>
+    <p><a href="fiche/index.html">Carnet de bord</a></p>
+    <button onclick="generateNewStory()">Commencer une nouvelle histoire</button>
+
+
+
+
+    <button id="StartID" onclick="redirect()">Démarrer</button>
+    <button id="StartBtn" onclick="addParagraphe()">Reprendre</button>
+
+    <button type="button" id="StartID" onclick="extend()">Try it</button>
+    <p id="myParagraphe"></p>
+
+    <a href="Page2.html">Démarrer</a>
+
+    
+    <p id="demo"></p>
+
+    <script>
+      function myFunction() {
+      var x = document.getElementById("StartBtn");
+      x.disabled = true;
+      }
+      function addParagraphe(){
+        var x = document.getElementById("myParagraphe");
+        x.append("hey ! ")
+      }
+      function redirect() {
+        document.location.href="Page2.html"
+      }
+      function generateNewStory() {
+        sessionStorage.setItem('tueur','Bob')
+        sessionStorage.setItem('lieu','Bar')
+        sessionStorage.setItem('arme','Bouteille')
+        sessionStorage.setItem('motif','Argent')
+      }
+
+      sessionStorage.getItem('tueur')
+
+
+
+
+    </script>
+
+  </body>
+</html>
