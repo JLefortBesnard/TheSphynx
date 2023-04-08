@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link rel="stylesheet" href="Style.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Fin de partie</title>
+
+  </head>
+  <body>
+    <h1>The Sphynx</h1>
+    <h2>Tu as résolu l'affaire avec brio ! Mais c'est pas finit tu peut en rejouer une autre ?</h2>
+
+    <button id="StartID" onclick="redirect()">Élucide une autre affaire !</button>
+    <p id="myParagraphe"></p>
+
+    
+
+    <script>
+      function myFunction() {
+      var x = document.getElementById("StartBtn");
+      x.disabled = true;
+      }
+      function addParagraphe(){
+        var x = document.getElementById("myParagraphe");
+        x.append("hey ! ")
+      }
+      function redirect() {
+        document.location.href="PageAcceuil.html"
+      }
+
+
+
+    </script>
+
+  </body>
+</html>
