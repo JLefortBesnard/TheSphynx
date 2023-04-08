@@ -47,24 +47,27 @@ return selectedValue;
 // }
 
 function valider(){
-  var nbreTentative=3;
-    var div1Content = getDivContentById("suspect");
-  var div2Content = getDivContentById2("arme");
-  var div3Content = getDivContentById3("motif");
+  // var nbreTentative=3;
+    var tueur = document.getElementById("tueur");
+    var arme = document.getElementById("arme");
+    var motif = document.getElementById("motif");
   // var div4Content = getDivContentById4("lieu");
-  sessionStorage.setItem("suspect","bob");
-  sessionStorage.setItem("arme","bouteille");
-  sessionStorage.setItem("motif","argent");
+  // sessionStorage.setItem("tueur","bob");
+  // sessionStorage.setItem("arme","bouteille");
+  // sessionStorage.setItem("motif","argent");
   // sessionStorage.setItem("lieu","bar");
-  var valeurRecuperer1=sessionStorage.getItem('suspect');
-  var valeurRecuperer2=sessionStorage.getItem('arme');
-  var valeurRecuperer3=sessionStorage.getItem('motif');
-  // var valeurRecuperer4=sessionStorage.getItem('lieu');
+  var solution= {
+    "tueur": sessionStorage.getItem('tueur'),
+    "arme": sessionStorage.getItem('arme'),
+    "motif": sessionStorage.getItem('motif'),
+  };
+  console.log(solution);
+  console.log(tueur.value);
+  console.log(arme.value);
+  console.log(motif.value);
 
-
-
-
-  if (div1Content == valeurRecuperer1 && div2Content == valeurRecuperer2 && div3Content == valeurRecuperer3) {
+  // Checking
+  if (tueur.value == solution.tueur && motif.value == solution.motif && arme.value == solution.arme) {
     console.log("win");
     
     sessionStorage.clear();
@@ -94,7 +97,6 @@ function valider(){
     // }
     console.log("perdu");
    
-    
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -114,7 +116,6 @@ function valider(){
       setTimeout(function() {
         window.location.href = "loosing.html";
       }, 3000);
-    
   }
 //   else if(div1Content == "1" && div2Content == "2" && div3Content == "1"){
 //     console.log("mort")
