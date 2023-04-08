@@ -1,0 +1,33 @@
+body {
+    font-family:Arial, Helvetica, sans-serif
+}
+
+
+
+
+
+h1 {
+    
+}
+h2 {
+   
+}
+
+p{
+    
+
+}
+button{
+    
+    background-color:rgb(222, 219, 219);
+    border: none;
+    border-radius: 5px;
+
+}
+button:hover{
+    background-color: silver;
+    
+
+
+
+}
