@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Snake Game</title>
+  	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<style>
+
+body
+{
+zoom: 0.95; 
+-moz-transform: scale(0.95); 
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<br>
+<br>
+
+
+
+
+    <canvas id="snakeboard" width="600" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+   
+
+    <style>
+      #snakeboard {
+
+        position: relative;
+        top: 20%;
+        left: 20%;
+
+      }
+
+    </style>
+    
+ 
+    
+    </body>
+
+  <script>
+    
+    const board_border = 'black';
+    const board_background = "white";
+    
+    const snake_col = 'lightblue';
+    const snake_border = 'darkblue';
+    let snake = [
+      {x: 200, y: 200},
+      {x: 190, y: 200},
+      {x: 180, y: 200},
+      {x: 170, y: 200},
+      {x: 160, y: 200}
+    ]
+    
+    
+    const wall_col = 'grey';
+    const wall_border = 'grey';
+    let wall = [
+      // B
+      {x: 100, y: 100},
+    ]
+
+    let bomb_x;
+    let bomb_y;
+    let time_start;
+    let arr = [10, -10, 0];
+
+    let time = 0;
+    let score = 0;
+
+    // True if changing direction
+    let changing_direction = false;
+    // Horizontal velocity
+    let food_x;
+    let food_y;
+
+    // define word to write on screen
+    let word = 'BAR';
+    let word_coords = [
+      [100, 110],
+      [100, 120],
+      [100, 130],
+      [100, 140],
+      [100, 150],
+      [100, 160],
+      [100, 170],
+      [100, 180],
+      [100, 190],
+      [110, 100],
+      [120, 100],
+      [130, 100],
+      [140, 100],
+      [150, 100],
+      [160, 100],
+      [170, 100],
+      [180, 100],
+      [110, 190],
+      [120, 190],
+      [130, 190],
+      [140, 190],
+      [150, 190],
+      [160, 190],
+      [160, 160],
+      [170, 170],
+      [180, 180],
+      [170, 190],
+      [180, 190],
+      [140, 150],
+      [130, 150],
+      [120, 150],
+      [110, 150],
+
+      [150, 150],
+      [160, 150],
+      [170, 140],
+      [180, 130],
+      [180, 120],
+      [180, 110],
+
+      // A
+      [250, 100],
+      [260, 100],
+      [270, 100],
+      [280, 100],
+      [290, 100],
+      [300, 100],
+      [310, 100],
+      [320, 100],
+      [330, 100],
+      [340, 100],
+      [350, 100],
+
+      [250, 150],
+      [260, 150],
+      [270, 150],
+      [280, 150],
+      [290, 150],
+      [300, 150],
+      [310, 150],
+      [320, 150],
+      [330, 150],
+      [340, 150],
+      [350, 150],
+
+
+      [250, 100],
+      [250, 110],
+      [250, 120],
+      [250, 130],
+      [250, 140],
+      [250, 150],
+      [250, 160],
+      [250, 170],
+      [250, 180],
+      [250, 190],
+      [350, 100],
+      [350, 110],
+      [350, 120],
+      [350, 130],
+      [350, 140],
+      [350, 150],
+      [350, 160],
+      [350, 170],
+      [350, 180],
+      [350, 190],
+
+
+
+      // R
+      // bar vertical
+      [400, 100],
+      [400, 110],
+      [400, 120],
+      [400, 130],
+      [400, 140],
+      [400, 150],
+      [400, 160],
+      [400, 170],
+      [400, 180],
+      [400, 190],
+// bar vhorizontal haut
+      [410, 100],
+      [420, 100],
+      [430, 100],
+      [440, 100],
+      [450, 100],
+      [460, 100],
+      [470, 100],
+      [480, 100],
+
+      [440, 150],
+      [430, 150],
+      [420, 150],
+      [410, 150],
+
+
+      [450, 150],
+      [460, 150],
+      [470, 140],
+      [480, 130],
+      [480, 120],
+      [480, 110],
+
+
+      [460, 160],
+      [470, 170],
+      [480, 180],
+      [490, 190]
+      ];
+
+
+
+    let choice = 10
+
+    
+    let dx = 10;
+    // Vertical velocity
+    let dy = 0;
+    
+    
+    // Get the canvas element
+    const snakeboard = document.getElementById("snakeboard");
+    // Return a two dimensional drawing context
+    const snakeboard_ctx = snakeboard.getContext("2d");
+    // Start game
+    main();
+
+    gen_food();
+
+    
+
+    document.addEventListener("keydown", change_direction);
+    
+    // main function called repeatedly to keep the game running
+    function main() {
+
+        if (has_game_ended()) return winning();
+
+        changing_direction = false;
+        setTimeout(function onTick() {
+        clear_board();
+        drawFood();
+        drawWall();
+        move_snake();
+        drawSnake();
+        // Repeat
+        main();
+        time += 1;
+      }, 100)
+    }
+    
+    // draw a border around the canvas
+    function clear_board() {
+      //  Select the colour to fill the drawing
+      snakeboard_ctx.fillStyle = board_background;
+      //  Select the colour for the border of the canvas
+      snakeboard_ctx.strokestyle = board_border;
+      // Draw a "filled" rectangle to cover the entire canvas
+      snakeboard_ctx.fillRect(0, 0, snakeboard.width, snakeboard.height);
+      // Draw a "border" around the entire canvas
+      snakeboard_ctx.strokeRect(0, 0, snakeboard.width, snakeboard.height);
+    }
+    
+    // Draw the snake on the canvas
+    function drawSnake() {
+      // Draw each part
+      snake.forEach(drawSnakePart);
+    }
+
+    function drawFood() {
+      snakeboard_ctx.fillStyle = 'lightgreen';
+      snakeboard_ctx.strokestyle = 'lightgreen';
+      snakeboard_ctx.fillRect(food_x, food_y, 10, 10);
+      snakeboard_ctx.strokeRect(food_x, food_y, 10, 10);
+    }
+
+
+    function drawWall() {
+      // Draw each part
+      wall.forEach(drawWallPart);
+    }
+
+    // Draw one snake part
+    function drawSnakePart(snakePart) {
+      // Set the colour of the snake part
+      snakeboard_ctx.fillStyle = snake_col;
+      // Set the border colour of the snake part
+      snakeboard_ctx.strokestyle = snake_border;
+      // Draw a "filled" rectangle to represent the snake part at the coordinates
+      // the part is located
+      snakeboard_ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
+      // Draw a border around the snake part
+      snakeboard_ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
+    }
+
+    // Draw one wall part
+    function drawWallPart(wallPart) {
+      // Set the colour of the wall part
+      snakeboard_ctx.fillStyle = wall_col;
+      // Set the border colour of the wall part
+      snakeboard_ctx.strokestyle = wall_border;
+      // Draw a "filled" rectangle to represent the wall part at the coordinates
+      // the part is located
+      snakeboard_ctx.fillRect(wallPart.x, wallPart.y, 10, 10);
+      // Draw a border around the wall part
+      snakeboard_ctx.strokeRect(wallPart.x, wallPart.y, 10, 10);
+    }
+
+    function has_game_ended() {
+      for (let i = 4; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true
+      }
+      for (let i = 0; i < wall.length; i++) {
+        if (snake[0].x === wall[i].x && snake[0].y === wall[i].y) return true
+      }
+      
+    
+      const hitLeftWall = snake[0].x < 0;
+      const hitRightWall = snake[0].x > snakeboard.width - 10;
+      const hitToptWall = snake[0].y < 0;
+      const hitBottomWall = snake[0].y > snakeboard.height - 10;
+      return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
+      }
+
+    function random(min, max) {
+      return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+    }
+
+
+    function gen_food() {
+      // Generate a random number the food x-coordinate
+      food_x = random(0, snakeboard.width - 10);
+      // Generate a random number for the food y-coordinate
+      food_y = random(0, snakeboard.height - 10);
+      // if the new food location is where the snake currently is, generate a new food location
+      snake.forEach(function has_snake_eaten_food(part) {
+        const has_eaten = part.x == food_x && part.y == food_y;
+        if (has_eaten) gen_food();
+      });
+      // if the new food location is where the wall currently is, generate a new food location
+      wall.forEach(function food_in_wall(part) {
+        const food_in = part.x == food_x && part.y == food_y;
+        if (food_in) gen_food();
+      });
+    }
+    
+
+    function randomCoords(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    
+    function gen_word_wall() {
+      // Generate a random number the food x-coordinate
+      x_y = randomCoords(word_coords);
+      wall_x = x_y[0];
+      // Generate a random number for the food y-coordinate
+      wall_y = x_y[1];
+      // if the new wall location is where the snake currently is, generate a new wall location
+      snake.forEach(function is_wall_in_snake(part) {
+        const has_eaten = part.x == wall_x && part.y == wall_y;
+        if (has_eaten) gen_word_wall();
+      });
+      // if the new wall location is where the wall currently is, generate a new wall location
+      wall.forEach(function wall_in_wall(part) {
+        const wall_in = part.x == wall_x && part.y == wall_y;
+        if (wall_in) gen_word_wall();
+      });
+      wall.push({x: wall_x, y: wall_y});
+    }
+
+
+
+
+    function change_direction(event) {
+      const LEFT_KEY = 37;
+      const RIGHT_KEY = 39;
+      const UP_KEY = 38;
+      const DOWN_KEY = 40;
+      
+    // Prevent the snake from reversing
+    
+      if (changing_direction) return;
+      changing_direction = true;
+      const keyPressed = event.keyCode;
+      const goingUp = dy === -10;
+      const goingDown = dy === 10;
+      const goingRight = dx === 10;
+      const goingLeft = dx === -10;
+      if (keyPressed === LEFT_KEY && !goingRight) {
+        dx = -10;
+        dy = 0;
+      }
+      if (keyPressed === UP_KEY && !goingDown) {
+        dx = 0;
+        dy = -10;
+      }
+      if (keyPressed === RIGHT_KEY && !goingLeft) {
+        dx = 10;
+        dy = 0;
+      }
+      if (keyPressed === DOWN_KEY && !goingUp) {
+        dx = 0;
+        dy = 10;
+      }
+    }
+
+    function move_snake() {
+      // Create the new Snake's head
+      const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+      // Add the new head to the beginning of snake body
+      snake.unshift(head);
+      const has_eaten_food = snake[0].x === food_x && snake[0].y === food_y;
+      if (has_eaten_food) {
+        // Increase score
+        score += 10;
+
+        // Generate new food location
+        gen_food();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+        gen_word_wall();
+
+
+      } else {
+        // Remove the last part of snake body
+        snake.pop();
+      }
+    }
+    
+    function winning() {
+            location.reload();
+    }
+
+
+  </script>
+
+</html>
