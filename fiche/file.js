@@ -56,6 +56,7 @@ function valider(){
         icon: 'success',
         title: 'Bien joué'
       })
+      window.location.href = "loosing.html"
   }else{
     console.log("perdu");
     const Toast = Swal.mixin({
@@ -73,7 +74,8 @@ function valider(){
       Toast.fire({
         icon: 'error',
         title: 'Tu es mort'
-      })
+      }),
+      window.location.href = "loosing.html"
   }
 //   else if(div1Content == "1" && div2Content == "2" && div3Content == "1"){
 //     console.log("mort")
