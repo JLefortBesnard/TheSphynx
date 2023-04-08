@@ -688,4 +688,4 @@ const tabNom =[
 ];
 const tabArmes = ["hache","couteau de cuisine","bouteille","épée","poing américain","pied de biche","pistolet","fusil","dague","couteau suisse","pelle"];
 const tabLieux = ["Café","Bar","Foret","Musee","Salon","Quai","Stade","Route","Villa","Plage"];
-const tabMotifs =["Jalousie","Argent","Triangle amoureux","Vengeance personnelle","vengeance d'un proche","accident","métier tueur à gage","personnalité abusive","];
+const tabMotifs =["Jalousie","Argent","Triangle amoureux","Vengeance personnelle","vengeance d'un proche","accident","métier tueur à gage","personnalité abusive"];
