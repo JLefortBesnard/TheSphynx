@@ -42,10 +42,10 @@
         if (sessionStorage.getItem('isgen')!=null){
           if (confirm("Il y a déja une partie enregistrée, voulez vous regénérer ?(Annuler pour non)") == true) {
             sessionStorage.setItem('isgen',1);
-          sessionStorage.setItem('victime',tabPrenom[random(tabPrenom.lenght)]);
-          sessionStorage.setItem('tueur', tabPrenom[random(tabPrenom.lenght)]);
-          sessionStorage.setItem('arme',tabArmes[random(tabArmes.lenght)]);
-          sessionStorage.setItem('motif',tabMotifs[random(tabMotifs.lenght)]);
+          sessionStorage.setItem('victime',tabPrenom[random(tabPrenom.length)]);
+          sessionStorage.setItem('tueur', tabPrenom[random(tabPrenom.length)]);
+          sessionStorage.setItem('arme',tabArmes[random(tabArmes.length)]);
+          sessionStorage.setItem('motif',tabMotifs[random(tabMotifs.length)]);
             document.getElementById("msgok").style.display = 'block';
             setTimeout(function(){  document.getElementById("msgok").style.display = 'none';}, 5000);
             document.getElementById('debug').innerHTML = sessionStorage.getItem('lieu') + sessionStorage.getItem('arme');
@@ -56,10 +56,10 @@
         }
         else{
           sessionStorage.setItem('isgen',1);
-          sessionStorage.setItem('victime',tabPrenom[random(tabPrenom.lenght)]);
-          sessionStorage.setItem('tueur', tabPrenom[random(tabPrenom.lenght)]);
-          sessionStorage.setItem('arme',tabArmes[random(tabArmes.lenght)]);
-          sessionStorage.setItem('motif',tabMotifs[random(tabMotifs.lenght)]);
+          sessionStorage.setItem('victime',tabPrenom[random(tabPrenom.length)]);
+          sessionStorage.setItem('tueur', tabPrenom[random(tabPrenom.length)]);
+          sessionStorage.setItem('arme',tabArmes[random(tabArmes.length)]);
+          sessionStorage.setItem('motif',tabMotifs[random(tabMotifs.length)]);
           document.getElementById('debug').innerHTML = sessionStorage.getItem('lieu') + sessionStorage.getItem('arme');
           document.getElementById("msgok").style.display = 'block';
 
