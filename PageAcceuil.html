@@ -12,10 +12,10 @@
     <h2>Solve a new case every time</h2>
 
 
-  <p><a href="minigames/snake/snakes.html">Snake</a></p>
-  <p><a href="minigames/space/index.html">spaceInvider</a></p>
-  <p><a href="fiche/index.html">Carnet de bord</a></p>
-
+    <p><a href="minigames/snake/snakes.html">Snake</a></p>
+    <p><a href="minigames/space/index.html">spaceInvider</a></p>
+    <p><a href="fiche/index.html">Carnet de bord</a></p>
+    <button onclick="generateNewStory()">Commencer une nouvelle histoire</button>
 
 
 
@@ -43,6 +43,15 @@
       function redirect() {
         document.location.href="Page2.html"
       }
+      function generateNewStory() {
+        sessionStorage.setItem('tueur','Bob')
+        sessionStorage.setItem('lieu','Bar')
+        sessionStorage.setItem('arme','Bouteille')
+        sessionStorage.setItem('motif','Argent')
+      }
+
+      sessionStorage.getItem('tueur')
+
 
 
 
