@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link rel="stylesheet" href="Style.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Accueil</title>
+
+  </head>
+  <body>
+    <div class = "flexx">
+    <h1>The Sphynx</h1>
+    <img src="ressource/ico.png">
+    <h2>Solve a new case every time</h2>
+
+
+    
+
+    <button onclick="generateNewStory()">Générer</button>
+    <div id = 'msgok'>Génération bien passé </div>
+
+
+  </div>
+    
+    <div id="myDHideP" style="display: block;">
+      
+      <p><a href="snakes.html">Snake</a> <div>Manger les pommes vertes en évitant les bombes et les murs et l'indice apparaitera une fois le score de 150 atteint.</div></p>
+      <p><a href="space.html">spaceInvider</a><div>Éliminer les enemies et les lettres de l'indices apparaiteront au fur et a mesure. A vous de retrouiver l'ordre des lettres.</div></p>
+      <p><a href="indexfiche.html">Carnet de bord</a><div>Soumettez votre réponse une fois tout les éléments de l'enquette récupérées</div></p>
+      <p><i>Penssez à prendre un papier un crayon pour enquetter</i></p>
+
+    </div>
+
+
+
+    <script>
+
+      function generateNewStory() {
+        if (sessionStorage.getItem('isgen')!=null){
+          if (confirm("Il y a déja une partie enregistrée, voulez vous regénérer ?(Annuler pour non)") == true) {
+            sessionStorage.setItem('isgen',1);
+            sessionStorage.setItem('victime',victimes[random(nb)]);
+            sessionStorage.setItem('tueur', tueurs[random(nb)]);
+            sessionStorage.setItem('lieu', lieux[random(nb)]);
+            sessionStorage.setItem('arme',armes[random(nb)]);
+            sessionStorage.setItem('motif',motifs[random(nb)]);
+            document.getElementById("msgok").style.display = 'block';
+            setTimeout(function(){  document.getElementById("msgok").style.display = 'none';}, 5000);
+
+          } else {
+            text = "Annulée";
+          }
+        }
+        else{
+          sessionStorage.setItem('isgen',1);
+          sessionStorage.setItem('victime',victimes[random(nb)]);
+            sessionStorage.setItem('tueur', tueurs[random(nb)]);
+            sessionStorage.setItem('lieu', lieux[random(nb)]);
+            sessionStorage.setItem('arme',armes[random(nb)]);
+            sessionStorage.setItem('motif',motifs[random(nb)]);
+          document.getElementById("msgok").style.display = 'block';
+
+          setTimeout(function(){  document.getElementById("msgok").style.display = 'none';}, 5000);
+
+
+        }
+        
+      }
+
+      function random(size) {
+        return Math.floor(Math.random()*size);
+      }
+      let victimes = ['Alice','Benjamin'];
+      let tueurs = ['Alice','Benjamin'];
+      let lieux = ['Alice','Benjamin'];
+      let armes = ['Alice','Benjamin'];
+      let motifs = ['Alice','Benjamin'];
+
+
+    </script>
+
+  </body>
+</html>
