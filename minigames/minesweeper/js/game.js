@@ -39,7 +39,7 @@ function tableCreate() {
             cellSvg.src = "./minigames/minesweeper/img/Minesweeper_unopened_square.svg";
             
             cell.id = "cell-" + row.id + i;
-            cellSvg.addEventListener("mousedown", (e) => {clickTbl((e.target || e.srcElement));});
+            cellSvg.addEventListener("mousedown", (e) => {clickTbl(e.button, (e.target || e.srcElement));});
             
             cell.appendChild(cellSvg);
             row.appendChild(cell);
@@ -147,6 +147,8 @@ function getAddrToSvg(num){
         case 6 : return path + "6.svg"
         case 7 : return path + "7.svg"
         case 8 : return path + "8.svg"
+        case -2: return path + "flag.svg";
+        case -3: return path + "unopened_square.svg";
         default:
             console.log('ERROR');
             break;
@@ -178,13 +180,29 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-function clickTbl(square) {
+function checkDrapeau(x,y){
+    if(T[x][y] === 0){
+        T[x][y] = 2;
+        document.getElementById("cell-" + x + y).children[0].src = getAddrToSvg(-2);
+    }
+    else if (T[x][y] === 2){
+        T[x][y] = 0;
+        document.getElementById("cell-" + x + y).children[0].src = getAddrToSvg(-3);
+    }
+}
+
+function clickTbl(button, square) {
     if(!stop){
         var x = square.parentNode.parentNode.id;
         var y = square.parentNode.id.substring(6);
-        if(T[x][y] == 0){
-            reveler(x,y);
-            verifGagne();
+        if(button === 0){
+            if(T[x][y] == 0){
+                reveler(x,y);
+                verifGagne();
+            }
+        }
+        else if (button === 2){
+            checkDrapeau(x,y);
         }
     }
 }

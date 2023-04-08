@@ -66,6 +66,7 @@ function valider(){
 
   if (div1Content == valeurRecuperer1 && div2Content == valeurRecuperer2 && div3Content == valeurRecuperer3) {
     console.log("win");
+    
     sessionStorage.clear();
     const Toast = Swal.mixin({
         toast: true,
@@ -139,22 +140,6 @@ function cloneForm() {
     }
   }
   
-  // JavaScript
-const select = document.getElementById("mySelect");
-
-// Récupérer les données JSON
-fetch("./dataSphynx.json")
-  .then(response => response.json())
-  .then(data => {
-    // Pour chaque élément dans les données JSON, créer un élément <option> correspondant
-    data.forEach(item => {
-      const option = document.createElement("option");
-      //option.text = item.label;
-      option.value = item.value;
-      select.add(option);
-    });
-  });
-
 
 
 

@@ -1,33 +1,30 @@
 body {
-    font-family:Arial, Helvetica, sans-serif
-}
-
-
-
-
-
-h1 {
-    
-}
-h2 {
-   
-}
-
-p{
-    
+    font-family:Arial, Helvetica, sans-serif;
+    display: flex;
 
 }
+.flexx{
+    margin-right: 30px;
+
+}
+#myDHideP{
+    margin-top: 25px;
+
+}
+
 button{
     
     background-color:rgb(222, 219, 219);
     border: none;
-    border-radius: 5px;
+    font-size: 30px;
+    border-radius: 7px;
 
 }
 button:hover{
     background-color: silver;
-    
-
-
-
+}
+#msgok{
+    color: green;
+    font-size: 30pt;
+    display: none;
 }

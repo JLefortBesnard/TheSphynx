@@ -8,6 +8,10 @@
     <!-- Game style -->
     <title>Space</title>
     <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -21,8 +25,26 @@
         }
 
         h1 {
-            color: rgb(41, 41, 41);
+            color: rgb(77, 77, 77);
             margin: 15px 0px;
+        }
+
+        button {
+            text-decoration: none;
+            color: white;
+            margin-bottom: 15px;
+            background-color: red;
+            padding: 10px;
+            border-radius: 15px;
+            transition: all .5s;
+            font-weight: bold;
+            border: none;
+        }
+
+        button:hover {
+            background-color: white;
+            color: red;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -30,7 +52,8 @@
 <body>
     <h1 id="hidden-word">.</h1>
     <!-- Game canvas -->
-    <canvas id="space-canvas" width="750" height="550"></canvas>
+    <canvas id="space-canvas" width="800" height="500"></canvas>
+    <button onclick="game.quit();">Quitter le jeu</button>
     <!-- Game logic -->
     <script>
         // Objects
@@ -198,9 +221,8 @@
         game.ctx = game.canvas.getContext("2d");
         game.backgroundColor = "#000000";
         // sessionStorage.setItem("motif", "ARGENT"); //! debug
-        game.hiddenWord = sessionStorage.getItem("motif").split('');
-        console.log(game.hiddenWord); //! debug
-        // document.getElementById('hidden-word').innerHTML = game.hiddenWord;
+        game.hiddenWord = sessionStorage.getItem("motif").toUpperCase().split('');
+        game.solution = "";
 
         // The number of parts an asteroid is made of
         game.asteroidsParts = 8;
@@ -229,10 +251,10 @@
             if (game.hiddenWord.length !== 1)
                 rand = Math.floor(Math.random() * (game.hiddenWord.length - 1)) + 1;
             document.getElementById('hidden-word').innerHTML = game.hiddenWord[rand];
+            game.solution += game.hiddenWord[rand];
             game.hiddenWord.splice(rand, 1);
             setTimeout(() => {
                 document.getElementById('hidden-word').innerHTML = ".";
-                console.log("hide");
             }, 5000);
         }
 
@@ -449,17 +471,19 @@
             game.init();
         };
 
+        // Quit the game
+        game.quit = function () {
+            game.stop();
+            window.location.href = "./PageAcceuil.html";
+        };
+
         // Win the game
         game.win = function () {
-            game.stop();
             var timer = 5
-            document.getElementById("hidden-word").innerHTML = "Bien joué ! Retour dans " + timer;
-            var counter = setInterval(() => {
-                document.getElementById("hidden-word").innerHTML = "Bien joué ! Retour dans " + (--timer);
-            }, 1000);
+            document.getElementById("hidden-word").innerHTML = "Bien joué ! Solution: [" + game.solution + "]. Retour au menu principal...";
             setTimeout(() => {
                 clearInterval(counter);
-                window.location.href = "../../PageAcceuil.html";
+                window.location.href = "./PageAcceuil.html";
             }, 5000);
         };
 
