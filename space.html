@@ -21,14 +21,14 @@
         }
 
         h1 {
-            color: white;
+            color: rgb(41, 41, 41);
             margin: 15px 0px;
         }
     </style>
 </head>
 
 <body>
-    <h1 id="hidden-word"></h1>
+    <h1 id="hidden-word">.</h1>
     <!-- Game canvas -->
     <canvas id="space-canvas" width="750" height="550"></canvas>
     <!-- Game logic -->
@@ -82,7 +82,7 @@
         }
 
         class SpaceShip extends GameObject {
-            constructor(x, y, width, height, color, canvasHeight) {
+            constructor(x, y, width, height, color, hasHiddenChar, canvasHeight) {
                 super(x, y, width, height, color);
                 // Set canvas height.
                 this.canvasHeight = canvasHeight;
@@ -93,6 +93,7 @@
                 this.bulletColor = "#cd0200";
                 // Bullets fired by the spaceship
                 this.bullets = [];
+                this.hasHiddenChar = hasHiddenChar
             }
 
             // Override the draw method to also draw the spaceship's bullets.
@@ -126,7 +127,7 @@
 
         class Player extends SpaceShip {
             constructor(x, y, width, height, color, canvasHeight, canvasWidth) {
-                super(x, y, width, height, color, canvasHeight);
+                super(x, y, width, height, color, false, canvasHeight);
                 this.canvasWidth = canvasWidth;
             }
 
@@ -196,10 +197,10 @@
         game.canvas = document.getElementById("space-canvas");
         game.ctx = game.canvas.getContext("2d");
         game.backgroundColor = "#000000";
-        sessionStorage.setItem("motif", "ARGENT"); //! debug
-        game.hiddenWord = sessionStorage.getItem("motif");
-        console.log(game.hiddenWord);
-        document.getElementById('hidden-word').innerHTML = game.hiddenWord
+        // sessionStorage.setItem("motif", "ARGENT"); //! debug
+        game.hiddenWord = sessionStorage.getItem("motif").split('');
+        console.log(game.hiddenWord); //! debug
+        // document.getElementById('hidden-word').innerHTML = game.hiddenWord;
 
         // The number of parts an asteroid is made of
         game.asteroidsParts = 8;
@@ -223,6 +224,18 @@
         // on the y axis when one of the sides is reached.
         game.enemyStep = 5;
 
+        game.showRandomHiddenChar = function () {
+            var rand = 0
+            if (game.hiddenWord.length !== 1)
+                rand = Math.floor(Math.random() * (game.hiddenWord.length - 1)) + 1;
+            document.getElementById('hidden-word').innerHTML = game.hiddenWord[rand];
+            game.hiddenWord.splice(rand, 1);
+            setTimeout(() => {
+                document.getElementById('hidden-word').innerHTML = ".";
+                console.log("hide");
+            }, 5000);
+        }
+
         // Handle game loop
         game.update = function () {
             // Draw canvas background
@@ -245,8 +258,8 @@
 
             // Check if the player has destroyed all enemies
             if (game.enemies.length == 0) {
-                // Reset the game
-                game.restart();
+                // Win the game
+                game.win();
             }
 
             // Check if the enemies are out of bounds.
@@ -301,7 +314,6 @@
             }
 
             // Check if player bullet collides with asteroid
-            //! ANCHOR
             for (var i = 0; i < game.player.bullets.length; i++) {
                 for (var j = 0; j < game.asteroids.length; j++) {
                     if (game.asteroids[j].collidesWith(game.player.bullets[i])) {
@@ -326,9 +338,13 @@
             }
 
             // Check if player bullet collides with enemy
+            //! ANCHOR
             for (var i = 0; i < game.player.bullets.length; i++) {
                 for (var j = 0; j < game.enemies.length; j++) {
                     if (game.enemies[j].collidesWith(game.player.bullets[i])) {
+                        console.log(game.enemies[j]);
+                        if (game.enemies[j].hasHiddenChar === true)
+                            game.showRandomHiddenChar();
                         game.enemies.splice(j, 1);
                         game.player.bullets.splice(i, 1);
                         break;
@@ -340,7 +356,7 @@
             for (var i = 0; i < game.enemies.length; i++) {
                 for (var j = 0; j < game.enemies[i].bullets.length; j++) {
                     if (game.player.collidesWith(game.enemies[i].bullets[j])) {
-                        // Reset the game
+                        // Restart the game
                         game.restart();
                         break;
                     }
@@ -402,15 +418,22 @@
 
             // Setup enemies
             game.enemies = [];
+            var enemiesWhoHaveChar = 0;
             for (var i = 0; i < game.enemyLines; i++) {
                 for (var j = 0; j < game.enemiesEachLine; j++) {
+                    var rand = Math.floor(Math.random() * 2);
+
                     game.enemies.push(new SpaceShip(
                         game.enemySpace + j * game.enemySpace,
                         game.enemySpace + i * game.enemySpace,
                         20,
                         20,
-                        '#FF9965'
+                        '#FF9965',
+                        (rand && enemiesWhoHaveChar < game.hiddenWord.length) ? true : false
                     ));
+                    if (rand && enemiesWhoHaveChar < game.hiddenWord.length) {
+                        enemiesWhoHaveChar++;
+                    }
                 }
             }
         };
@@ -424,6 +447,20 @@
         game.restart = function () {
             game.stop();
             game.init();
+        };
+
+        // Win the game
+        game.win = function () {
+            game.stop();
+            var timer = 5
+            document.getElementById("hidden-word").innerHTML = "Bien joué ! Retour dans " + timer;
+            var counter = setInterval(() => {
+                document.getElementById("hidden-word").innerHTML = "Bien joué ! Retour dans " + (--timer);
+            }, 1000);
+            setTimeout(() => {
+                clearInterval(counter);
+                window.location.href = "../../PageAcceuil.html";
+            }, 5000);
         };
 
         // Start the game on window load
